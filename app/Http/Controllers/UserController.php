@@ -50,6 +50,7 @@ class UserController extends Controller
                 'username' => 'required|string|unique:users',
                 'name' => 'required|string',
                 'password' => 'required|string',
+                'uid' => 'required|string|unique:users',
                 'role' => 'required|numeric'
             ]);
 
@@ -57,6 +58,7 @@ class UserController extends Controller
 
             $user = User::create([
                 'username' => $request->username,
+                'uid' => $request->uid,
                 'name' => $request->name,
                 'password' => bcrypt($request->password),
             ]);
@@ -91,6 +93,7 @@ class UserController extends Controller
             $request->validate([
                 'username' => 'required|string|unique:users,username,' . $user->id,
                 'name' => 'required|string',
+                'uid' => 'required|string|unique:users,uid,' . $user->id,
                 'role' => 'required|numeric'
             ]);
 
@@ -106,6 +109,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name' => $request->name,
                 'password' => $password,
+                'uid' => $request->uid,
             ]);
 
             $user->syncRoles($request->role);

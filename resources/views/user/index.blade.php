@@ -27,6 +27,7 @@
                 <tr>
                     <th class="text-nowrap">No</th>
                     <th class="text-nowrap">Username</th>
+                    <th class="text-nowrap">UID</th>
                     <th class="text-nowrap">Name</th>
                     <th class="text-nowrap">Role</th>
                     <th class="text-nowrap">Action</th>
@@ -53,6 +54,15 @@
                         <input type="text" name="username" id="username" class="form-control" value="">
 
                         @error('username')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="uid">UID</label>
+                        <input type="text" name="uid" id="uid" class="form-control" value="">
+
+                        @error('uid')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -92,7 +102,7 @@
 
                 <div class="modal-footer">
                     <a href="javascript:;" id="btn-close" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -123,6 +133,10 @@
                 name: 'username'
             },
             {
+                data: 'uid',
+                name: 'uid'
+            },
+            {
                 data: 'name',
                 name: 'name'
             },
@@ -140,6 +154,10 @@
     $("#btn-add").on('click', function() {
         let route = $(this).attr('data-route')
         $("#form-user").attr('action', route)
+        $("#username").val("")
+        $("#uid").val("")
+        $("#name").val("")
+        $("#role").val("")
     })
 
     $("#btn-close").on('click', function() {
@@ -162,6 +180,7 @@
                 let user = response.user;
 
                 $("#username").val(user.username)
+                $("#uid").val(user.uid)
                 $("#name").val(user.name)
                 $("#role").val(role)
             }
@@ -201,5 +220,14 @@
             }
         });
     })
+
+    $(document).ready(function() {
+        $("#uid").on("keydown", function(e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
 </script>
 @endpush

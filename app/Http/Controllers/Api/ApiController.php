@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaction;
 use App\Models\History;
+use App\Models\LimitMember;
 use App\Models\Member;
 use App\Models\Terusan;
 use App\Models\Ticket;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -140,7 +142,6 @@ class ApiController extends Controller
         $transScanned = DetailTransaction::where('ticket_code', $request->ticket)->first();
 
         if ($transScanned) {
-            // if ($transScanned->ticket->tripod == $request->tripod) {
             DetailTransaction::where('ticket_code', $request->ticket)
                 ->update([
                     "gate" => $request->gate,
@@ -174,49 +175,64 @@ class ApiController extends Controller
                 "status" => "open",
                 "count" => $transaction->amount - $counting
             ]);
-            // } else {
-            //     return response()->json([
-            //         "status" => 'closed',
-            //         "count" => 0
-            //     ]);
-            // }
         } else {
             $now = Carbon::now('Asia/Jakarta')->format('Y-m-d');
 
             $member = Member::where('rfid', $request->ticket)->first();
+            $employe = User::where('uid', $request->ticket)->first();
 
             if ($member) {
                 if ($now >= $member->tgl_register && $now <= $member->tgl_expired) {
                     $history = History::where('member_id', $member->id)->whereDate('created_at', $now)->count();
+                    $limit = LimitMember::first();
 
-                    // if ($history >= 99) {
-                    //     return response()->json([
-                    //         "status" => 'closed',
-                    //         "count" => 0
-                    //     ]);
-                    // } else {
-                    History::create([
-                        'member_id' => $member->id,
-                        'gate' => $request->gate
-                    ]);
+                    if (!$limit) {
+                        return response([
+                            'status' => 'error',
+                            'message' => "Limit member belum di setting"
+                        ], 500);
+                    }
 
-                    $newHistory = History::where('member_id', $member->id)->whereDate('created_at', $now)->count();
+                    if ($history >= $limit->limit) {
+                        return response()->json([
+                            "status" => 'close',
+                            "count" => 0
+                        ]);
+                    } else {
+                        History::create([
+                            'member_id' => $member->id,
+                            'gate' => $request->gate
+                        ]);
 
-                    return response()->json([
-                        "status" => 'open',
-                        // "count" => 2 - $newHistory
-                    ]);
-                    // }
+                        $newHistory = History::where('member_id', $member->id)->whereDate('created_at', $now)->count();
+
+                        return response()->json([
+                            "status" => 'open',
+                            "count" => $limit->limit - $newHistory
+                        ]);
+                    }
                 } else {
                     return response()->json([
-                        "status" => 'error',
+                        "status" => 'close',
                         "message" => "Member expired"
                     ]);
                 }
+            } else if ($employe) {
+                if ($employe->is_active == 0) {
+                    return response()->json([
+                        "status" => 'close',
+                        "message" => "Karyawan sudah tidak aktif"
+                    ]);
+                }
+
+                return response()->json([
+                    "status" => 'open',
+                    "message" => "Gate member"
+                ]);
             } else {
                 return response()->json([
-                    "status" => 'error',
-                    "message" => "Member not found"
+                    "status" => 'close',
+                    "message" => "Card tidak terdaftar"
                 ]);
             }
         }

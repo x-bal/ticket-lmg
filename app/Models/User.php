@@ -18,5 +18,7 @@ class User extends Authenticatable
         'username',
         'password',
         'foto',
+        'uid',
+        'is_active'
     ];
 }

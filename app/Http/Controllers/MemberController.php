@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Member\CreateMemberRequest;
 use App\Http\Requests\Member\UpdateMemberRequest;
+use App\Models\LimitMember;
 use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ class MemberController extends Controller
     {
         $title = 'Data Member';
         $breadcrumbs = ['Master', 'Data Member'];
+        $limit = LimitMember::first() ?? new LimitMember();
 
-        return view('member.index', compact('title', 'breadcrumbs'));
+        return view('member.index', compact('title', 'breadcrumbs', 'limit'));
     }
 
     public function get(Request $request)
@@ -141,6 +143,24 @@ class MemberController extends Controller
 
             DB::commit();
             return redirect()->route('members.index')->with('success', "Member {$member->nama} berhasil diperpanjang");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
+        }
+    }
+
+    function update_setting(Request $request)
+    {
+        try {
+            $limit = LimitMember::first();
+            if ($limit) {
+                $limit->update($request->all());
+            } else {
+                LimitMember::create($request->all());
+            }
+
+            DB::commit();
+            return back()->with('success', "Setting member berhasil diupdate");
         } catch (\Throwable $th) {
             DB::rollBack();
             return back()->with('error', $th->getMessage());
