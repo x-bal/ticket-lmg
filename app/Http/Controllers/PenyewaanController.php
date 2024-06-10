@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HistoryPenyewaan;
 use App\Models\Member;
 use App\Models\Penyewaan;
+use App\Models\Setting;
 use App\Models\Sewa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -126,8 +127,15 @@ class PenyewaanController extends Controller
     public function print($id)
     {
         $penyewaan = Penyewaan::find($id);
+        $setting = Setting::first();
 
-        return view('penyewaan.print', compact('penyewaan'));
+        $logo = $setting ? asset('/storage/' . $setting->logo) : 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('/images/rio.png')));
+        $name = $setting->name ?? 'Ticketing';
+        $ucapan = $setting->ucapan ?? 'Terima Kasih';
+        $deskripsi = $setting->deskripsi ?? 'qr code hanya berlaku satu kali';
+        $use = $setting->use_logo ?? false;
+
+        return view('penyewaan.print', compact('penyewaan', 'logo', 'name', 'use', 'ucapan', 'deskripsi'));
     }
 
     public function destroy(Penyewaan $penyewaan)
