@@ -40,7 +40,7 @@ class SettingController extends Controller
             $logo = $request->file('logo');
             $logoUrl = '';
 
-            $attr['use_logo'] = $request->use_logo ?? 0;
+            $attr['use_logo'] = $request->use_logo == 'on' ? 1 : 0;
 
             if ($setting) {
                 if ($request->file('logo')) {
