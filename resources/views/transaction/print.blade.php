@@ -18,7 +18,7 @@
             <div class="detail" style="font-size: 10pt; line-height: 18px; margin-top: 10px; margin-bottom: 10px;">
                 <span style="display: flex; text-align: center; font-weight: 900; font-size: 10pt; margin-bottom: 10px; justify-content: space-between; margin-left: 10px; margin-right: 10px;">
                     @if($use == 1)
-                    <img src="{{ $logo }}" width="65" alt="The Logo" class="brand-image" style="opacity: .8; margin-top: -15px !important;">
+                    <img src="{{ $logo }}" width="55" alt="The Logo" class="brand-image" style="opacity: .8; margin-top: -15px !important;">
                     @else
                     <img src="" alt="">
                     @endif
