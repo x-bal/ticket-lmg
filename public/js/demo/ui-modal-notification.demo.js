@@ -237,10 +237,6 @@ var handleSweetNotification = function() {
 					closeModal: true
 				}
 			}
-		}).then((result) => {
-			if (result) {
-				alert('asd')
-			}
 		});
 	});
 };

@@ -48,6 +48,14 @@ abstract class ServiceProvider extends BaseServiceProvider
     abstract public function createPlugin();
 
     /**
+     * @return string
+     */
+    public function getConfigurationFile()
+    {
+        return rtrim($this->getResourcesDir(), '/').'/config.php';
+    }
+
+    /**
      * @return void
      */
     protected function registerPublishing()
@@ -132,14 +140,6 @@ abstract class ServiceProvider extends BaseServiceProvider
     /**
      * @return string
      */
-    public function getConfigurationFile()
-    {
-        return rtrim($this->getResourcesDir(), '/').'/config.php';
-    }
-
-    /**
-     * @return string
-     */
     protected function getResourcesDir()
     {
         $r = new \ReflectionClass($this);
@@ -211,6 +211,8 @@ abstract class ServiceProvider extends BaseServiceProvider
 
         $config = $this->app->make('config')->get($this->plugin->getName(), array()); // @phpstan-ignore-line
         $this->app->extend('flasher.resource_manager', function (ResourceManagerInterface $manager) use ($plugin, $config) {
+            $config = $plugin->normalizeConfig($config);
+
             $scripts = isset($config['scripts']) ? $config['scripts'] : array();
             $manager->addScripts($plugin->getAlias(), $scripts);
 
