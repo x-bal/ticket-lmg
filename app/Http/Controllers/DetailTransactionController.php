@@ -187,10 +187,11 @@ class DetailTransactionController extends Controller
 
             $logo = $setting ? asset('/storage/' . $setting->logo) : 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('/images/rio.png')));
             $ucapan = $setting->ucapan ?? 'Terima Kasih';
+            $name = $setting->name ?? 'Ticketing';
             $deskripsi = $setting->deskripsi ?? 'qr code hanya berlaku satu kali';
             $use = $setting->use_logo ?? false;
 
-            return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use'));
+            return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use', 'name'));
             // $print = $this->print($transaction);
             // if ($print["status"] == "success") {
             //     return back()->with('success', "Transaction success");
