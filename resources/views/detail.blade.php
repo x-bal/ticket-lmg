@@ -11,7 +11,7 @@
     <div id="bodyData">
         <h1 style="font-size: 75px;margin-top:0px;margin-bottom:0px"> SELAMAT DATANG</h1>
         <center>
-            <img src="{{ asset('/images/rio.png') }}" width="480" width="480" alt="The Logo" class="brand-image" style="opacity: .8;text-align:center;margin-top:50px">
+            <!-- <img src="{{ asset('/images/rio.png') }}" width="480" width="480" alt="The Logo" class="brand-image" style="opacity: .8;text-align:center;margin-top:50px"> -->
         </center>
     </div>
 
@@ -52,9 +52,9 @@
                     </center>
                     <h1>COUNTING TICKET GATE ` + gate + `<h1>
                         </br>
-                        
+
                         <h1 style="font-size: 100px;">${data.amount-data.amount_scanned}</h1>
-                        
+
                     <h1>${data.time}</h1>
                     `
                         $("#bodyData").html(bodyData);

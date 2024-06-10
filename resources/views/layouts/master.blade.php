@@ -190,7 +190,7 @@
                     @endcan
 
                     @can('report-access')
-                    <div class="menu-item {{ request()->is('report*') ? 'active' : '' }} has-sub">
+                    <div class="menu-item {{ request()->is('report*') || request()->is('history-member*') ? 'active' : '' }} has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="ion-ios-pulse"></i>
@@ -227,6 +227,12 @@
                                 </a>
                             </div>
                             @endcan
+
+                            <div class="menu-item">
+                                <a href="{{ route('history-member.index') }}" class="menu-link">
+                                    <div class="menu-text">History Member</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endcan

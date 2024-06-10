@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailTransactionController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\PermissionController;
@@ -92,6 +93,9 @@ Route::middleware('auth')->group(function () {
     Route::get('report/penyewaan-list', [ReportController::class, 'penyewaanList'])->name('reports.penyewaan-list');
     Route::get('rekap/penyewaan', [ReportController::class, 'rekapPenyewaan'])->name('rekap.penyewaan');
     Route::get('export-penyewaan', [ReportController::class, 'exportPenyewaan'])->name('penyewaan.export');
+
+    Route::get('history-member', [HistoryController::class, 'index'])->name('history-member.index');
+    Route::get('history-member/list', [HistoryController::class, 'list'])->name('history-member.list');
 
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('setting', [SettingController::class, 'store'])->name('setting.store');

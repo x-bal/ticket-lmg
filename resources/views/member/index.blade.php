@@ -27,12 +27,13 @@
         <form class="row mb-3" action="{{ route('setting.update') }}" method="post">
             @csrf
             <div class="col-md-4">
+                <label for="limit">Limit Transaksi Gratis Member</label>
                 <input type="number" name="limit" id="limit" class="form-control" placeholder="Limit transaksi gratis member..." value="{{ $limit->limit ?? 0 }}">
             </div>
 
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save Setting</button>
-                <a href="#modal-dialog" id="btn-add" class="btn btn-primary" data-route="{{ route('members.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Member</a>
+            <div class="col-md-4 mt-1">
+                <button type="submit" class="btn btn-success mt-3"><i class="fas fa-save"></i> Save Setting</button>
+                <a href="#modal-dialog" id="btn-add" class="btn btn-primary mt-3" data-route="{{ route('members.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Member</a>
             </div>
         </form>
 

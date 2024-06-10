@@ -30,10 +30,7 @@
             <div class="news-feed">
                 <div class="news-image" style="background-image: url({{ asset('/') }}img/login-bg/login-bg-11.jpg)"></div>
                 <div class="news-caption">
-                    <h4 class="caption-title"><b>E</b> Ticket</h4>
-                    <p>
-                        Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
+                    <!-- <h4 class="caption-title"><b>E</b>Ticket</h4> -->
                 </div>
             </div>
             <!-- END news-feed -->
@@ -87,7 +84,7 @@
                         </div>
                         <hr class="bg-gray-600 opacity-2" />
                         <div class="text-gray-600 text-center text-gray-500-darker mb-0">
-                            &copy; E-ticket All Right Reserved 2023
+                            &copy; Uniguard Indonesia All Right Reserved 2024
                         </div>
                     </form>
                 </div>
