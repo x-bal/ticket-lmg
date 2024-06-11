@@ -202,10 +202,11 @@ class ApiController extends Controller
                     } else {
                         History::create([
                             'member_id' => $member->id,
-                            'gate' => $request->gate
+                            'gate' => $request->gate,
+                            'waktu' => now('Asia/Jakarta')->format('Y-m-d H:i:s')
                         ]);
 
-                        $newHistory = History::where('member_id', $member->id)->whereDate('created_at', $now)->count();
+                        $newHistory = History::where('member_id', $member->id)->whereDate('waktu', $now)->count();
 
                         return response()->json([
                             "status" => 'open',
