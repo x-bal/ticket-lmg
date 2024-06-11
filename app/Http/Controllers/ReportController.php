@@ -138,6 +138,16 @@ class ReportController extends Controller
         return Excel::download(new TransactionExport($from, $to, $request->kasir), 'Rekap Transaction.xlsx');
     }
 
+    function printTransaction(Request $request)
+    {
+        $from = Carbon::parse($request->from)->format('Y-m-d');
+        $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
+        $tickets = Ticket::whereNotIn('id', [14, 15, 16])->get();
+        $kasir = $request->kasir;
+
+        return view('report.download-transaction', compact('tickets', 'from', 'to', 'kasir'));
+    }
+
     public function rekapPenyewaan(Request $request)
     {
         $date = $request->from ? Carbon::parse($request->from)->format('d/m/Y') . ' s.d ' . Carbon::parse($request->to)->format('d/m/Y') : Carbon::now()->format('d/m/Y');
@@ -158,5 +168,15 @@ class ReportController extends Controller
         $to = Carbon::parse(request('to'))->addDay(1)->format('Y-m-d');
 
         return Excel::download(new PenyewaanExport($from, $to, $request->kasir), 'Rekap Penyewaan.xlsx');
+    }
+
+    public function printPenyewaan(Request $request)
+    {
+        $from = Carbon::parse(request('from'))->format('Y-m-d');
+        $to = Carbon::parse(request('to'))->addDay(1)->format('Y-m-d');
+        $kasir = $request->kasir;
+        $sewa = Sewa::get();
+
+        return view('report.download-penyewaan', compact('from', 'to', 'kasir', 'sewa'));
     }
 }

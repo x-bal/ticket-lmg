@@ -38,7 +38,10 @@ class UserController extends Controller
                 ->editColumn('role', function ($row) {
                     return $row->roles()->first()->name;
                 })
-                ->rawColumns(['action'])
+                ->editColumn('is_active', function ($row) {
+                    return $row->is_active ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>';
+                })
+                ->rawColumns(['action', 'is_active'])
                 ->make(true);
         }
     }
@@ -51,7 +54,8 @@ class UserController extends Controller
                 'name' => 'required|string',
                 'password' => 'required|string',
                 'uid' => 'required|string|unique:users',
-                'role' => 'required|numeric'
+                'role' => 'required|numeric',
+                'status' => 'required|numeric',
             ]);
 
             DB::beginTransaction();
@@ -61,6 +65,7 @@ class UserController extends Controller
                 'uid' => $request->uid,
                 'name' => $request->name,
                 'password' => bcrypt($request->password),
+                'is_active' => $request->status,
             ]);
 
             $user->syncRoles($request->role);
@@ -94,7 +99,8 @@ class UserController extends Controller
                 'username' => 'required|string|unique:users,username,' . $user->id,
                 'name' => 'required|string',
                 'uid' => 'required|string|unique:users,uid,' . $user->id,
-                'role' => 'required|numeric'
+                'role' => 'required|numeric',
+                'status' => 'required|numeric',
             ]);
 
             DB::beginTransaction();
@@ -110,6 +116,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'password' => $password,
                 'uid' => $request->uid,
+                'is_active' => $request->status,
             ]);
 
             $user->syncRoles($request->role);

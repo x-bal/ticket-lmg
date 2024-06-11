@@ -44,6 +44,7 @@
             <div class="col-md-3 mt-1">
                 <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 <a href="{{ route('penyewaan.export') }}?from={{ request('from') }}&to={{ request('to') }}&kasir={{ request('kasir') }}" class="btn btn-success mt-3">Export</a>
+                <a href="{{ route('penyewaan.download') }}?from={{ request('from') }}&to={{ request('to') }}&kasir={{ request('kasir') }}" class="btn btn-info mt-3"><i class="fas fa-print me-1"></i>Print</a>
             </div>
         </form>
 

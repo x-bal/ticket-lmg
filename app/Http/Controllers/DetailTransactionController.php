@@ -171,12 +171,14 @@ class DetailTransactionController extends Controller
             $firstTrx = $transaction->detail()->count();
 
             $discount = request('discount') ?? 0;
+            $disc = request('discount') ? ($totalHarga * $discount) / 100 : 0;
 
             $transaction->update([
                 'ticket_id' => 0,
                 'amount' => $firstTrx,
                 'is_active' => 1,
                 'discount' => $discount,
+                'disc' => $disc,
                 'bayar' => str_replace('.', '', $request->bayar),
                 'kembali' => str_replace('.', '', $request->kembali),
                 'metode' => request('metode')

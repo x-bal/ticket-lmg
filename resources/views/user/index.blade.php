@@ -30,6 +30,7 @@
                     <th class="text-nowrap">UID</th>
                     <th class="text-nowrap">Name</th>
                     <th class="text-nowrap">Role</th>
+                    <th class="text-nowrap">Status</th>
                     <th class="text-nowrap">Action</th>
                 </tr>
             </thead>
@@ -98,6 +99,14 @@
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -145,6 +154,10 @@
                 name: 'role'
             },
             {
+                data: 'is_active',
+                name: 'is_active'
+            },
+            {
                 data: 'action',
                 name: 'action',
             },
@@ -183,6 +196,7 @@
                 $("#uid").val(user.uid)
                 $("#name").val(user.name)
                 $("#role").val(role)
+                $("#status").val(user.is_active)
             }
         })
     })

@@ -137,6 +137,7 @@ class ApiController extends Controller
         ]);
     }
 
+    // In Use
     public function check(Request $request)
     {
         $transScanned = DetailTransaction::where('ticket_code', $request->ticket)->first();
@@ -227,7 +228,7 @@ class ApiController extends Controller
 
                 return response()->json([
                     "status" => 'open',
-                    "message" => "Gate member"
+                    "message" => "Gate user"
                 ]);
             } else {
                 return response()->json([

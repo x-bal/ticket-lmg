@@ -89,10 +89,12 @@ Route::middleware('auth')->group(function () {
     Route::get('report/transactions-list', [ReportController::class, 'transactionList'])->name('reports.transaction-list');
     Route::get('rekap/transactions', [ReportController::class, 'rekapTransaction'])->name('rekap.transactions');
     Route::get('export-transaction', [ReportController::class, 'exportTransaction'])->name('transactions.export');
+    Route::get('print-transaction', [ReportController::class, 'printTransaction'])->name('transactions.download');
     Route::get('report/penyewaan', [ReportController::class, 'penyewaan'])->name('reports.penyewaan');
     Route::get('report/penyewaan-list', [ReportController::class, 'penyewaanList'])->name('reports.penyewaan-list');
     Route::get('rekap/penyewaan', [ReportController::class, 'rekapPenyewaan'])->name('rekap.penyewaan');
     Route::get('export-penyewaan', [ReportController::class, 'exportPenyewaan'])->name('penyewaan.export');
+    Route::get('print-penyewaan', [ReportController::class, 'printPenyewaan'])->name('penyewaan.download');
 
     Route::get('history-member', [HistoryController::class, 'index'])->name('history-member.index');
     Route::get('history-member/list', [HistoryController::class, 'list'])->name('history-member.list');

@@ -19,9 +19,9 @@ class SewaSeeder extends Seeder
             ["name" =>  "Sewa Baju Renang", "harga" => 10000],
             ["name" =>  "Sewa Pelampung", "harga" => 10000],
             ["name" =>  "Sewa Tikar", "harga" => 10000],
-            ["name" =>  "Tiket Balon Udara", "harga" => 10000, 'jenis_ticket_id' => 1],
-            ["name" =>  "Tiket Adrenaline Swing", "harga" => 10000, 'jenis_ticket_id' => 1],
-            ["name" =>  "Tiket Sepeda Terbang", "harga" => 10000, 'jenis_ticket_id' => 1],
+            // ["name" =>  "Tiket Balon Udara", "harga" => 10000, 'jenis_ticket_id' => 1],
+            // ["name" =>  "Tiket Adrenaline Swing", "harga" => 10000, 'jenis_ticket_id' => 1],
+            // ["name" =>  "Tiket Sepeda Terbang", "harga" => 10000, 'jenis_ticket_id' => 1],
         ];
 
         $no = 1;

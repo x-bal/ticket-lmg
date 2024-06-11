@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>{{ config('app.name') }} | {{ $title }}</title>
+    <title>{{ App\Models\Setting::first('name') ? App\Models\Setting::first('name')->name : config('app.name') }} | {{ $title }}</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
