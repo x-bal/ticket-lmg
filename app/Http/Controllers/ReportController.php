@@ -142,7 +142,11 @@ class ReportController extends Controller
     {
         $from = Carbon::parse($request->from)->format('Y-m-d');
         $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
-        $tickets = Ticket::get();
+        $transactionsId = Transaction::where('is_active', 1)->whereBetween('created_at', [$from, $to])->pluck('id');
+        $tickets = Ticket::whereHas('detailTransactions', function ($query) use ($transactionsId) {
+            $query->whereIn('transaction_id', $transactionsId);
+        })->get();
+
         $kasir = $request->kasir;
 
         return view('report.download-transaction', compact('tickets', 'from', 'to', 'kasir'));
@@ -175,7 +179,11 @@ class ReportController extends Controller
         $from = Carbon::parse(request('from'))->format('Y-m-d');
         $to = Carbon::parse(request('to'))->addDay(1)->format('Y-m-d');
         $kasir = $request->kasir;
-        $sewa = Sewa::get();
+        $penyewaanId = Penyewaan::whereBetween('created_at', [$from, $to])->pluck('id');
+
+        $sewa = Sewa::whereHas('penyewaans', function ($query) use ($penyewaanId) {
+            $query->whereIn('id', $penyewaanId);
+        })->get();
 
         return view('report.download-penyewaan', compact('from', 'to', 'kasir', 'sewa'));
     }
