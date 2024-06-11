@@ -57,7 +57,7 @@
 
                     <div class="form-group mb-3">
                         <label for="bayar">Bayar</label>
-                        <input type="text" name="bayar" id="bayar" class="form-control" value="0" autofocus>
+                        <input type="text" name="bayar" id="bayar" class="form-control" value="{{ $transaction->detail()->sum('total') ?? 0 }}" autofocus>
                     </div>
 
                     <div class="form-group mb-3">
@@ -158,6 +158,7 @@
                     price = response.totalPrice;
                     $("#price").empty().append('Rp. ' + price)
                     $("#totalPrice").empty().val(response.price)
+                    $("#bayar").empty().val(price).replace('.', '')
                     localStorage.clear("total")
                     localStorage.setItem("total", response.price)
                     getData()
