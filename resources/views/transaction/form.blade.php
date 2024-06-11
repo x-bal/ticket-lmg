@@ -158,7 +158,7 @@
                     price = response.totalPrice;
                     $("#price").empty().append('Rp. ' + price)
                     $("#totalPrice").empty().val(response.price)
-                    $("#bayar").empty().val(price).replace('.', '')
+                    $("#bayar").empty().val(price)
                     localStorage.clear("total")
                     localStorage.setItem("total", response.price)
                     getData()
