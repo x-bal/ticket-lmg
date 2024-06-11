@@ -142,7 +142,7 @@ class ReportController extends Controller
     {
         $from = Carbon::parse($request->from)->format('Y-m-d');
         $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
-        $tickets = Ticket::whereNotIn('id', [14, 15, 16])->get();
+        $tickets = Ticket::get();
         $kasir = $request->kasir;
 
         return view('report.download-transaction', compact('tickets', 'from', 'to', 'kasir'));
