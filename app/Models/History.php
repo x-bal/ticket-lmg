@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class History extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = ['id', 'gate_id', 'member_id', 'waktu'];
 
     function member(): BelongsTo
     {

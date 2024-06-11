@@ -184,7 +184,7 @@ class ApiController extends Controller
 
             if ($member) {
                 if ($now >= $member->tgl_register && $now <= $member->tgl_expired) {
-                    $history = History::where('member_id', $member->id)->whereDate('created_at', $now)->count();
+                    $history = History::where('member_id', $member->id)->whereDate('waktu', $now)->count();
                     $limit = LimitMember::first();
 
                     if (!$limit) {
