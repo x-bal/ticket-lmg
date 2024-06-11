@@ -10,11 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class History extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'gate', 'member_id', 'waktu'];
+    protected $fillable = ['id', 'gate', 'member_id', 'user_id', 'waktu'];
 
     function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     function scopeFilterDaterange($query)
@@ -33,6 +38,15 @@ class History extends Model
         if (request('member') ?? false) {
             if (request('member') != 'all') {
                 $query->where('member_id', request('member'));
+            }
+        }
+    }
+
+    function scopeFilterKaryawan($query)
+    {
+        if (request('karyawan') ?? false) {
+            if (request('karyawan') != 'all') {
+                $query->where('user_id', request('karyawan'));
             }
         }
     }

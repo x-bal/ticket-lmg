@@ -203,6 +203,7 @@ class ApiController extends Controller
                         History::create([
                             'member_id' => $member->id,
                             'gate' => $request->gate,
+                            'user_id' => 0,
                             'waktu' => now('Asia/Jakarta')->format('Y-m-d H:i:s')
                         ]);
 
@@ -226,6 +227,13 @@ class ApiController extends Controller
                         "message" => "Karyawan sudah tidak aktif"
                     ]);
                 }
+
+                History::create([
+                    'member_id' => 0,
+                    'gate' => $request->gate,
+                    'user_id' => $employe->id,
+                    'waktu' => now('Asia/Jakarta')->format('Y-m-d H:i:s')
+                ]);
 
                 return response()->json([
                     "status" => 'open',

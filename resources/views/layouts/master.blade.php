@@ -233,6 +233,12 @@
                                     <div class="menu-text">History Member</div>
                                 </a>
                             </div>
+
+                            <div class="menu-item">
+                                <a href="{{ route('history-karyawan.index') }}" class="menu-link">
+                                    <div class="menu-text">History Karyawan</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endcan

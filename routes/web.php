@@ -98,6 +98,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('history-member', [HistoryController::class, 'index'])->name('history-member.index');
     Route::get('history-member/list', [HistoryController::class, 'list'])->name('history-member.list');
+    Route::get('history-karyawan', [HistoryController::class, 'karyawan'])->name('history-karyawan.index');
+    Route::get('history-karyawan/list', [HistoryController::class, 'list_karyawan'])->name('history-karyawan.list');
 
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
