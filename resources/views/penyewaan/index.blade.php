@@ -315,6 +315,7 @@
             $("#harga_ticket").val((harga_ticket / 1000).toFixed(3))
             $("#jumlah").val((jumlah / 1000).toFixed(3))
             $("#cash").val((jumlah / 1000).toFixed(3))
+            $("#bayar").val((jumlah / 1000).toFixed(3))
         })
 
         $("#metode").on('change', function() {
@@ -339,6 +340,7 @@
             // $("#harga_ticket").val(harga_ticket)
             $("#jumlah").val((jumlah / 1000).toFixed(3))
             $("#cash").val((jumlah / 1000).toFixed(3))
+            $("#bayar").val((jumlah / 1000).toFixed(3))
 
         })
 
