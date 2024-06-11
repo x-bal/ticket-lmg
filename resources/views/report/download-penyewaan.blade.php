@@ -39,7 +39,7 @@
             </td>
             @else
             <td>{{ $sw->name }}</td>
-            <td class="text-center">{{ App\Models\Penyewaan::where('user_id', $kasir)->whereBetween('created_at', [$from, $to])->where('sewa_id', $sw->id)->count() }}</td>
+            <td class="text-center">{{ App\Models\Penyewaan::where('user_id', $kasir)->whereBetween('created_at', [$from, $to])->where('sewa_id', $sw->id)->sum('qty') }}</td>
             <td class="text-center">{{ number_format($sw->harga, 0, ',', '.') }}</td>
             <td class="text-end">
                 {{ number_format(App\Models\Penyewaan::where('user_id', $kasir)->whereBetween('created_at', [$from, $to])->where('sewa_id', $sw->id)->sum('jumlah'), 0, ',', '.') ?? 0 }}
