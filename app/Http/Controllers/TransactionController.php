@@ -57,6 +57,12 @@ class TransactionController extends Controller
                 ->editColumn('discount', function ($row) {
                     return 'Rp. ' . number_format($row->detail()->sum('total') * $row->discount / 100, 0, ',', '.');
                 })
+                ->editColumn('scanned', function ($row) {
+                    return $row->detail()->where('status', 'close')->count();
+                })
+                ->editColumn('sisa', function ($row) {
+                    return $row->detail()->where('status', 'open')->count();
+                })
                 ->editColumn('harga_ticket', function ($row) {
                     $disc = $row->detail()->sum('total') * $row->discount / 100;
                     return 'Rp. ' . number_format($row->detail()->sum('total') - $disc, 0, ',', '.');

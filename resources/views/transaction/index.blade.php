@@ -39,6 +39,8 @@
                     <!-- <th class="text-nowrap">Ticket</th> -->
                     <!-- <th class="text-nowrap">Harga</th> -->
                     <th class="text-nowrap">Jumlah Ticket</th>
+                    <th class="text-nowrap">Di Scan</th>
+                    <th class="text-nowrap">Belum Scan</th>
                     <th class="text-nowrap">Discount</th>
                     <th class="text-nowrap">Total</th>
                     <th class="text-nowrap">Status</th>
@@ -239,6 +241,18 @@
             {
                 data: 'amount',
                 name: 'amount'
+            },
+            {
+                data: 'scanned',
+                name: 'scanned',
+                sortable: false,
+                searchable: false
+            },
+            {
+                data: 'sisa',
+                name: 'sisa',
+                sortable: false,
+                searchable: false
             },
             {
                 data: 'discount',
