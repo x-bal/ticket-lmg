@@ -72,9 +72,6 @@
 
 <script>
     $(document).ready(function() {
-        // window.print();
-        // setTimeout(function() {
-        //     document.location.href = "{{ route('transactions.create') }}";
-        // }, 3000)
+        window.print();
     })
 </script>

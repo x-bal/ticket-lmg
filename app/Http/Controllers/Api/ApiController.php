@@ -187,14 +187,14 @@ class ApiController extends Controller
                     $history = History::where('member_id', $member->id)->whereDate('waktu', $now)->count();
                     $limit = LimitMember::first();
 
-                    if (!$limit) {
+                    if ($member->limit == 0) {
                         return response([
                             'status' => 'error',
                             'message' => "Limit member belum di setting"
                         ], 500);
                     }
 
-                    if ($history >= $limit->limit) {
+                    if ($history >= $member->limit) {
                         return response()->json([
                             "status" => 'close',
                             "count" => 0
@@ -211,7 +211,7 @@ class ApiController extends Controller
 
                         return response()->json([
                             "status" => 'open',
-                            "count" => $limit->limit - $newHistory
+                            "count" => $member->limit - $newHistory
                         ]);
                     }
                 } else {

@@ -28,6 +28,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
+                                <th>QTY</th>
                                 <th>Price</th>
                                 <th>Action</th>
                             </tr>
@@ -127,6 +128,10 @@
                     {
                         data: 'ticket',
                         name: 'ticket',
+                    },
+                    {
+                        data: 'qty',
+                        name: 'qty',
                     },
                     {
                         data: 'harga',

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PenyewaanExport;
+use App\Exports\ReportPenyewaanExport;
+use App\Exports\ReportTransactionExport;
 use App\Exports\TransactionExport;
 use App\Models\Penyewaan;
 use App\Models\Sewa;
@@ -69,6 +71,24 @@ class ReportController extends Controller
         }
     }
 
+    function export_transaction(Request $request)
+    {
+        $now = Carbon::now()->format('Y-m-d');
+
+        if ($request->from && $request->to && $request->kasir == 'all') {
+            $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
+
+            $data = Transaction::with('ticket')->where('is_active', 1)->whereBetween('created_at', [$request->from, $to])->get();
+        } elseif ($request->from && $request->to && $request->kasir != 'all') {
+            $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
+            $data = Transaction::with('ticket')->where(['is_active' => 1, 'user_id' => $request->kasir])->whereBetween('created_at', [$request->from, $to])->get();
+        } else {
+            $data = Transaction::with('ticket')->where('is_active', 1)->whereDate('created_at', $now)->get();
+        }
+
+        return Excel::download(new ReportTransactionExport($data), "Laporan Transaksi.xlsx");
+    }
+
     public function penyewaan(Request $request)
     {
         $date = $request->from ? Carbon::parse($request->from)->format('d/m/Y') . ' s.d ' . Carbon::parse($request->to)->format('d/m/Y') : Carbon::now()->format('d/m/Y');
@@ -114,6 +134,25 @@ class ReportController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+    function export_penyewaan(Request $request)
+    {
+        $now = Carbon::now()->format('Y-m-d');
+
+        if ($request->from && $request->to && $request->kasir == 'all') {
+            $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
+
+            $data = Penyewaan::whereBetween('created_at', [$request->from, $to])->get();
+        } elseif ($request->from && $request->to && $request->kasir != 'all') {
+            $to = Carbon::parse($request->to)->addDay(1)->format('Y-m-d');
+
+            $data = Penyewaan::where('user_id', $request->kasir)->whereBetween('created_at', [$request->from, $to])->get();
+        } else {
+            $data = Penyewaan::whereDate('created_at', $now)->get();
+        }
+
+        return Excel::download(new ReportPenyewaanExport($data), "Laporan Penyewaan.xlsx");
     }
 
     public function rekapTransaction(Request $request)

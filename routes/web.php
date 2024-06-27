@@ -87,19 +87,23 @@ Route::middleware('auth')->group(function () {
 
     Route::get('report/transactions', [ReportController::class, 'transaction'])->name('reports.transactions');
     Route::get('report/transactions-list', [ReportController::class, 'transactionList'])->name('reports.transaction-list');
+    Route::get('/report/transactions/export', [ReportController::class, 'export_transaction'])->name('report.transaction.export');
     Route::get('rekap/transactions', [ReportController::class, 'rekapTransaction'])->name('rekap.transactions');
     Route::get('export-transaction', [ReportController::class, 'exportTransaction'])->name('transactions.export');
     Route::get('print-transaction', [ReportController::class, 'printTransaction'])->name('transactions.download');
     Route::get('report/penyewaan', [ReportController::class, 'penyewaan'])->name('reports.penyewaan');
     Route::get('report/penyewaan-list', [ReportController::class, 'penyewaanList'])->name('reports.penyewaan-list');
+    Route::get('/report/penyewaan/export', [ReportController::class, 'export_penyewaan'])->name('report.penyewaan.export');
     Route::get('rekap/penyewaan', [ReportController::class, 'rekapPenyewaan'])->name('rekap.penyewaan');
     Route::get('export-penyewaan', [ReportController::class, 'exportPenyewaan'])->name('penyewaan.export');
     Route::get('print-penyewaan', [ReportController::class, 'printPenyewaan'])->name('penyewaan.download');
 
     Route::get('history-member', [HistoryController::class, 'index'])->name('history-member.index');
     Route::get('history-member/list', [HistoryController::class, 'list'])->name('history-member.list');
+    Route::get('history-member/print', [HistoryController::class, 'print_member'])->name('history-member.print');
     Route::get('history-karyawan', [HistoryController::class, 'karyawan'])->name('history-karyawan.index');
     Route::get('history-karyawan/list', [HistoryController::class, 'list_karyawan'])->name('history-karyawan.list');
+    Route::get('history-karyawan/print', [HistoryController::class, 'print_karyawan'])->name('history-karyawan.print');
 
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('setting', [SettingController::class, 'store'])->name('setting.store');

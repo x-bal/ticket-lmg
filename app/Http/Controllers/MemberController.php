@@ -48,6 +48,12 @@ class MemberController extends Controller
                         return '<span class="badge fs-12px bg-success">Active</span>';
                     }
                 })
+                ->editColumn('masa_berlaku', function ($row) {
+                    return Carbon::parse($row->tgl_register)->format('d/m/Y') . ' - ' . Carbon::parse($row->tgl_expired)->format('d/m/Y');
+                })
+                ->editColumn('sisa_hari', function ($row) {
+                    return Carbon::parse($row->tgl_expired)->diffInDays() . " Hari";
+                })
                 ->rawColumns(['action', 'expired'])
                 ->make(true);
         }
@@ -59,8 +65,10 @@ class MemberController extends Controller
             DB::beginTransaction();
             $attr = $request->except('tanggal_lahir');
             $attr['tgl_register'] = Carbon::now()->format('Y-m-d');
-            $attr['tgl_expired'] = Carbon::now()->addMonth(6)->format('Y-m-d');
+            $attr['tgl_expired'] = Carbon::now()->addMonth(1)->format('Y-m-d');
             $attr['tgl_lahir'] = request('tanggal_lahir');
+            $attr['limit'] = request('limit');
+            $attr['jenis_member'] = request('jenis_member');
 
             $member = Member::create($attr);
 
@@ -91,6 +99,8 @@ class MemberController extends Controller
                 'no_ktp' => $request->no_ktp,
                 'alamat' => $request->alamat,
                 'tgl_lahir' => $request->tanggal_lahir,
+                'limit' => $request->limit,
+                'jenis_member' => $request->jenis_member,
             ]);
 
             DB::commit();

@@ -45,6 +45,7 @@
                 <div class="col-md-3">
                     <div class="form-group mt-1">
                         <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <a href="{{ route('history-karyawan.print') }}?daterange={{ request('daterange') }}" class="btn btn-info mt-3"><i class="fas fa-print me-1"></i>Print</a>
                     </div>
                 </div>
             </div>
@@ -99,20 +100,6 @@
         },
         deferRender: true,
         pagination: true,
-        dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
-        buttons: [{
-                extend: 'excel',
-                className: 'btn-sm btn-success'
-            },
-            {
-                extend: 'pdf',
-                className: 'btn-sm btn-danger'
-            },
-            {
-                extend: 'print',
-                className: 'btn-sm btn-info'
-            }
-        ],
         columns: [{
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',

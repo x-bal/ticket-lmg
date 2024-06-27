@@ -24,18 +24,7 @@
     </div>
 
     <div class="panel-body">
-        <form class="row mb-3" action="{{ route('setting.update') }}" method="post">
-            @csrf
-            <div class="col-md-4">
-                <label for="limit">Limit Transaksi Gratis Member</label>
-                <input type="number" name="limit" id="limit" class="form-control" placeholder="Limit transaksi gratis member..." value="{{ $limit->limit ?? 0 }}">
-            </div>
-
-            <div class="col-md-4 mt-1">
-                <button type="submit" class="btn btn-success mt-3"><i class="fas fa-save"></i> Save Setting</button>
-                <a href="#modal-dialog" id="btn-add" class="btn btn-primary mt-3" data-route="{{ route('members.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Member</a>
-            </div>
-        </form>
+        <a href="#modal-dialog" id="btn-add" class="btn btn-primary mb-3" data-route="{{ route('members.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Member</a>
 
         <table id="datatable" class="table table-striped table-bordered align-middle">
             <thead>
@@ -45,7 +34,9 @@
                     <th class="text-nowrap">Name</th>
                     <th class="text-nowrap">No Ktp</th>
                     <th class="text-nowrap">No Hp</th>
-                    <th class="text-nowrap">Alamat</th>
+                    <th class="text-nowrap">Jenis Member</th>
+                    <th class="text-nowrap">Masa Berlaku</th>
+                    <th class="text-nowrap">Sisa Hari</th>
                     <th class="text-nowrap">Status</th>
                     <th class="text-nowrap">Action</th>
                 </tr>
@@ -118,6 +109,27 @@
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label for="jenis_member">Jenis Member</label>
+                            <select name="jenis_member" id="jenis_member" class="form-control">
+                                <option value="member">Member Bulanan</option>
+                                <option value="guru">Guru Renang</option>
+                            </select>
+
+                            @error('jenis_member')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="limit">Limit Harian Member</label>
+                            <input type="number" name="limit" id="limit" class="form-control" value="">
+
+                            @error('limit')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:;" id="btn-close" class="btn btn-white" data-bs-dismiss="modal">Close</a>
@@ -176,8 +188,16 @@
                 name: 'no_hp'
             },
             {
-                data: 'alamat',
-                name: 'alamat'
+                data: 'jenis_member',
+                name: 'jenis_member'
+            },
+            {
+                data: 'masa_berlaku',
+                name: 'masa_berlaku'
+            },
+            {
+                data: 'sisa_hari',
+                name: 'sisa_hari'
             },
             {
                 data: 'expired',
@@ -226,6 +246,8 @@
                 $("#no_hp").val(member.no_hp)
                 $("#alamat").val(member.alamat)
                 $("#tanggal_lahir").val(member.tgl_lahir)
+                $("#limit").val(parseInt(member.limit))
+                $("#jenis_member").val(member.jenis_member)
             }
         })
     })
