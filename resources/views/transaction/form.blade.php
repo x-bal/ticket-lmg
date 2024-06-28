@@ -252,6 +252,7 @@
                 success: function(response) {
                     $("#price").empty().append('Rp. ' + response.totalPrice)
                     $("#totalPrice").val(response.price)
+                    $("#bayar").val(response.price)
                     localStorage.clear("total")
                     localStorage.setItem("total", response.price)
                     getData()

@@ -58,10 +58,10 @@ class TransactionController extends Controller
                     return 'Rp. ' . number_format($row->detail()->sum('total') * $row->discount / 100, 0, ',', '.');
                 })
                 ->editColumn('scanned', function ($row) {
-                    return $row->detail()->where('status', 'close')->count();
+                    return $row->detail()->sum('scanned');
                 })
                 ->editColumn('sisa', function ($row) {
-                    return $row->detail()->where('status', 'open')->count();
+                    return $row->detail()->sum('qty') - $row->detail()->sum('scanned');
                 })
                 ->editColumn('harga_ticket', function ($row) {
                     $disc = $row->detail()->sum('total') * $row->discount / 100;
@@ -240,6 +240,16 @@ class TransactionController extends Controller
     public function print(Transaction $transaction)
     {
         $setting = Setting::first();
+        foreach ($transaction->detail as $detail) {
+            for ($i = 1; $i <= $detail->qty; $i++) {
+                $tickets[] = [
+                    "name" => $detail->ticket->name,
+                    "harga" => number_format($detail->ticket->harga, 0, ',', '.'),
+                    "ticket_code" => $detail->ticket_code
+                ];
+            }
+        }
+
 
         $logo = $setting ? asset('/storage/' . $setting->logo) : 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('/images/rio.png')));
         $name = $setting->name ?? 'Ticketing';
@@ -247,7 +257,7 @@ class TransactionController extends Controller
         $deskripsi = $setting->deskripsi ?? 'qr code hanya berlaku satu kali';
         $use = $setting->use_logo ?? false;
 
-        return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use', 'name'));
+        return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use', 'name', "tickets"));
     }
 
     public function report(Request $request)

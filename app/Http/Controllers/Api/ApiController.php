@@ -162,19 +162,24 @@ class ApiController extends Controller
                 ]);
             }
 
-            $counting = 0;
+            $counting = $transScanned->scanned + 1;
 
-            DetailTransaction::where('ticket_code', $request->ticket)
-                ->update([
-                    "status" => "close",
-                    "scanned" => 1
-                ]);
-
-            $transaction = DetailTransaction::find($transScanned->id);
+            if ($transScanned->qty == $counting) {
+                DetailTransaction::where('ticket_code', $request->ticket)
+                    ->update([
+                        "status" => "close",
+                        "scanned" => $counting
+                    ]);
+            } else {
+                DetailTransaction::where('ticket_code', $request->ticket)
+                    ->update([
+                        "scanned" => $counting
+                    ]);
+            }
 
             return response()->json([
-                "status" => "open",
-                "count" => $transaction->amount - $counting
+                "status" => $transScanned->status,
+                "count" => $transScanned->qty - $counting
             ]);
         } else {
             $now = Carbon::now('Asia/Jakarta')->format('Y-m-d');

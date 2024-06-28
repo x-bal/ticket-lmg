@@ -164,14 +164,24 @@ class DetailTransactionController extends Controller
             $lastTrx = Transaction::whereDate('created_at', $now)->orderBy('no_trx', 'DESC')->first()->no_trx ?? 0;
             $tickets = [];
             $idtrx = [];
-            $print = 1;
+            $print = $transaction->detail()->sum('qty') ?? 1;
             $tipe = 'individual';
 
             $totalHarga =  $transaction->detail()->sum('total');
-            $firstTrx = $transaction->detail()->count();
+            $firstTrx = $transaction->detail()->sum('qty');
 
             $discount = request('discount') ?? 0;
             $disc = request('discount') ? ($totalHarga * $discount) / 100 : 0;
+
+            foreach ($transaction->detail as $detail) {
+                for ($i = 1; $i <= $detail->qty; $i++) {
+                    $tickets[] = [
+                        "name" => $detail->ticket->name,
+                        "harga" => number_format($detail->ticket->harga, 0, ',', '.'),
+                        "ticket_code" => $detail->ticket_code
+                    ];
+                }
+            }
 
             $transaction->update([
                 'ticket_id' => 0,
@@ -193,7 +203,7 @@ class DetailTransactionController extends Controller
             $deskripsi = $setting->deskripsi ?? 'qr code hanya berlaku satu kali';
             $use = $setting->use_logo ?? false;
 
-            return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use', 'name'));
+            return view('transaction.print', compact('transaction', 'logo', 'ucapan', 'deskripsi', 'use', 'name', "tickets"));
             // $print = $this->print($transaction);
             // if ($print["status"] == "success") {
             //     return back()->with('success', "Transaction success");
