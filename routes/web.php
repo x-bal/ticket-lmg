@@ -101,9 +101,11 @@ Route::middleware('auth')->group(function () {
     Route::get('history-member', [HistoryController::class, 'index'])->name('history-member.index');
     Route::get('history-member/list', [HistoryController::class, 'list'])->name('history-member.list');
     Route::get('history-member/print', [HistoryController::class, 'print_member'])->name('history-member.print');
+    Route::get('history-member/export', [HistoryController::class, 'export_member'])->name('history-member.export');
     Route::get('history-karyawan', [HistoryController::class, 'karyawan'])->name('history-karyawan.index');
     Route::get('history-karyawan/list', [HistoryController::class, 'list_karyawan'])->name('history-karyawan.list');
     Route::get('history-karyawan/print', [HistoryController::class, 'print_karyawan'])->name('history-karyawan.print');
+    Route::get('history-karyawan/export', [HistoryController::class, 'export_karyawan'])->name('history-karyawan.export');
 
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('setting', [SettingController::class, 'store'])->name('setting.store');

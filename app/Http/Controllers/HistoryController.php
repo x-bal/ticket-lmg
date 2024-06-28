@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HistoryMemberExport;
 use App\Models\History;
 use App\Models\Member;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class HistoryController extends Controller
@@ -79,11 +81,22 @@ class HistoryController extends Controller
         $end = $request->to ? Carbon::parse($request->to)->addDay(1)->format('Y-m-d') : Carbon::now()->endOfMonth()->format('Y-m-d');
         $title = 'History Member ' . Carbon::parse($start)->format('d/m/Y') . ' s.d ' . Carbon::parse($end)->format('d/m/Y');
 
-        $data = Member::has("histories")->whereHas("histories", function ($query) use ($start, $end) {
+        $data = Member::has("histories")->whereHas("histories", function ($query) {
             $query->filterDaterange();
         })->withCount("histories")->get();
 
         return view('history.print', compact('title', 'data', 'start', 'end'));
+    }
+
+    function export_member(Request $request)
+    {
+        $start = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->startOfMonth()->format('Y-m-d');
+        $end = $request->to ? Carbon::parse($request->to)->addDay(1)->format('Y-m-d') : Carbon::now()->endOfMonth()->format('Y-m-d');
+        $title = 'History Member ' . Carbon::parse($start)->format('d-m-Y') . ' s.d ' . Carbon::parse($end)->format('d-m-Y');
+
+        $data = History::where('member_id', '!=', 0)->with('member')->filterDaterange()->get();
+
+        return Excel::download(new HistoryMemberExport($data), $title . ".xlsx");
     }
 
     function print_karyawan(Request $request)
@@ -97,5 +110,16 @@ class HistoryController extends Controller
         })->withCount("histories")->get();
 
         return view('history.print_karyawan', compact('title', 'data', 'start', 'end'));
+    }
+
+    function export_karyawan(Request $request)
+    {
+        $start = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->startOfMonth()->format('Y-m-d');
+        $end = $request->to ? Carbon::parse($request->to)->addDay(1)->format('Y-m-d') : Carbon::now()->endOfMonth()->format('Y-m-d');
+        $title = 'History Karyawan ' . Carbon::parse($start)->format('d-m-Y') . ' s.d ' . Carbon::parse($end)->format('d-m-Y');
+
+        $data = History::where('user_id', '!=', 0)->with('user')->filterDaterange()->get();
+
+        return Excel::download(new HistoryMemberExport($data), $title . ".xlsx");
     }
 }
