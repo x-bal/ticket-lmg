@@ -136,6 +136,10 @@ class UserController extends Controller
 
             $user->delete();
 
+            foreach ($user->histories as $history) {
+                $history->delete();
+            }
+
             DB::commit();
 
             return back()->with('success', "User {$user->username} berhasil didelete");

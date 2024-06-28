@@ -99,6 +99,7 @@ class MemberController extends Controller
                 'no_ktp' => $request->no_ktp,
                 'alamat' => $request->alamat,
                 'tgl_lahir' => $request->tanggal_lahir,
+                'tgl_expired' => $request->tgl_expired,
                 'limit' => $request->limit,
                 'jenis_member' => $request->jenis_member,
             ]);
@@ -118,6 +119,10 @@ class MemberController extends Controller
             DB::beginTransaction();
 
             $member->delete();
+
+            foreach ($member->histories as $history) {
+                $history->delete();
+            }
 
             DB::commit();
 

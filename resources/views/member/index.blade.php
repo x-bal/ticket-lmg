@@ -130,6 +130,15 @@
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label for="tgl_expired">Tanggal Expired</label>
+                            <input type="date" name="tgl_expired" id="tgl_expired" class="form-control" value="">
+
+                            @error('tgl_expired')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:;" id="btn-close" class="btn btn-white" data-bs-dismiss="modal">Close</a>
@@ -248,6 +257,7 @@
                 $("#tanggal_lahir").val(member.tgl_lahir)
                 $("#limit").val(parseInt(member.limit))
                 $("#jenis_member").val(member.jenis_member)
+                $("#tgl_expired").val(member.tgl_expired)
             }
         })
     })
